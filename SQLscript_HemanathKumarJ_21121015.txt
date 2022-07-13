@@ -1,0 +1,74 @@
+create database pharma_store;
+
+CREATE TABLE `medicines_in_stock` 
+(
+  `MedicineID` int(11) NOT NULL,
+  `MedicinePrice` decimal(10,2) NOT NULL,
+  `MedicineName` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`MedicineID`)
+) 
+;
+insert into pharma_store.medicines_in_stock values (001,'455.55','ABC'),(051,'254.88','DEF'),(091,'94.33','GHI'),
+(121,'195.00','JKL'),(151,'150.48','MNO');
+
+SET FOREIGN_KEY_CHECKS=0;
+
+CREATE TABLE `medicines_sold` 
+(
+  `MedicineID` int(11) NOT NULL,
+  `MedicinePrice` decimal(10,2) NOT NULL,
+  `MedicineName` varchar(50) DEFAULT NULL,
+  foreign key(MedicineID) references medicines_in_stock(MedicineID)
+) 
+;
+insert into pharma_store.medicines_sold values (001,'455.55','ABC'),(088,'754.88','PQR'),(091,'94.33','GHI'),
+(121,'195.00','JKL');
+
+
+
+CREATE TABLE `doctor_details` 
+(
+  `doctorID` int(11) NOT NULL,
+  `MedicineID` int(11) NOT NULL,
+  `doctorName` varchar(50) DEFAULT NULL,
+  `doctorlocation` varchar(50) NOT NULL,
+  PRIMARY KEY (`doctorID`),
+  FOREIGN KEY (MedicineID) REFERENCES medicines_in_stock(`MedicineID`)
+  )
+;
+insert into pharma_store.doctor_details values (856,'201','X','Pune'),(857,'202','Y','Mumbai'),(859,'204','Z','Chennai'),
+(860,'205','Q','Hyderabad');
+
+
+CREATE TABLE `patient_details` 
+(
+  `patientID` int(11) NOT NULL,
+  `patientAge` int(3) NOT NULL,
+  `MedicineID` int(11) NOT NULL,
+  `prescribedmedicineName` varchar(50) DEFAULT NULL,
+  `amountpurchased` decimal(10,2) NOT NULL,
+  PRIMARY KEY (`patientID`),
+  FOREIGN KEY (MedicineID) REFERENCES medicines_in_stock(`MedicineID`)
+  )
+;
+insert into pharma_store.patient_details values (1001,'45','001','Arul','125.33'),(1002,'25','005','Vyshak','250.05'),(1003,'15','003','Gokul','156.30'),
+(1004,'36','011','Hemanath','480.98');
+
+
+CREATE TABLE `order_details` 
+(
+  `orderID` int(11) NOT NULL,
+  `MedicineID` int(11) NOT NULL,
+  `MedicineName` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`orderID`),
+  FOREIGN KEY (MedicineID) REFERENCES medicines_in_stock(`MedicineID`)
+  )
+;
+insert into pharma_store.order_details values (4501,001,'ABC'),(3780,051,'DEF'),(3900,091,'GHI');
+
+
+SELECT * FROM medicines_in_stock WHERE MedicinePrice>100;
+
+SELECT * FROM patient_details WHERE amountpurchased>200;
+
+SELECT * FROM doctor_details WHERE doctorlocation IN ('Mumbai','Pune');

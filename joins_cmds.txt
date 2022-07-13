@@ -1,0 +1,14 @@
+SELECT customers.customerName,customers.phone,orders.customerNumber
+FROM customers 
+INNER JOIN orders
+ON customers.customerNumber = orders.customerNumber;
+
+SELECT customers.customerName,orders.customerNumber
+FROM customers 
+LEFT JOIN orders
+ON customers.customerNumber = orders.customerNumber;
+
+SELECT customers.customerName,customers.phone,orders.customerNumber
+FROM customers 
+RIGHT JOIN orders
+ON customers.customerNumber = orders.customerNumber;
